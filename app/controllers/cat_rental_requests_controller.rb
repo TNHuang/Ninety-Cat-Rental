@@ -52,8 +52,8 @@ class CatRentalRequestsController < ApplicationController
 
 
   def is_owner?
-    @cat_rental_request = CatRentalRequest.find(params[:id])
-    @cat = @cat_rental_request.cat
+
+    @cat = Cat.find(params[:cat_id])
     if @cat.user_id != current_user.id
       flash[:errors] = "sorry not your cat :<"
       redirect_to cat_url(@cat)
