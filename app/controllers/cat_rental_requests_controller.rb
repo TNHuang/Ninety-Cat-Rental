@@ -31,24 +31,30 @@ class CatRentalRequestsController < ApplicationController
     end
   end
 
-  # def edit
-  #   @cat = Cat.find(params[:id])
-  #
-  #   render :edit
-  # end
-  #
-  # def update
-  #   @cat = Cat.find(params[:id])
-  #
-  #   if @cat.update(cat_params)
-  #
-  #     redirect_to cat_url(@cat)
-  #   else
-  #     flash[:errors] = @cat.errors.full_messages
-  #
-  #     render :edit
-  #   end
-  # end
+  def approve
+    @cat_rental_request = CatRentalRequest.find(params[:id])
+    @cat_rental_request.approve!
+    @current_cat = @cat_rental_request.cat
+    redirect_to cat_url(@current_cat)
+  end
+
+  def deny
+    @cat_rental_request = CatRentalRequest.find(params[:id])
+    @cat_rental_request.deny!
+
+    @current_cat = @cat_rental_request.cat
+    redirect_to cat_url(@current_cat)
+  end
+
+  def pending_all
+    @cat_rental_request = CatRentalRequest.find(params[:id])
+    @cat = @cat_rental_request.cat
+    @cat.cat_rental_requests.each do |req|
+      req.update(status: "PENDING")
+    end
+
+    redirect_to cat_url(@cat)
+  end
 
   private
   def cat_rental_request_params

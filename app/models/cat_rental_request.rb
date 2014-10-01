@@ -11,7 +11,7 @@ class CatRentalRequest < ActiveRecord::Base
     class_name: "Cat",
     foreign_key: :cat_id,
     primary_key: :id
-
+    #
     def approve!
       unless self.has_conflict?
         self.update(status: "APPROVED")

@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <th><%= @cat.name %>'s stats</th>
+    <th align="left"><%= @cat.name %>'s stats</th>
   </tr>
 <% @cat_attrs.each do |cat_attr|%>
 <tr>
@@ -19,25 +19,36 @@
   <tr>
     <th><%= @cat.name %>'s rental requests</th>
   </tr>
+  <tr align="left">
+    <th>start date</th><th>end date</th><th>status</th><th>conflict?</th>
+  </tr>
   <% @cat.cat_rental_requests.each do |rental_request| %>
     <tr>
       <td><%= rental_request.start_date %></td>
       <td><%= rental_request.end_date %></td>
       <td><%= rental_request.status %></td>
+      <td align="center"><%= rental_request.has_conflict? ? "yes" : "no" %></td>
       <% if rental_request.status == "PENDING" %>
+
         <td>
-          <form>
-          <button type="button" onclick="<% rental_request.approve! %>"
-          >Approve</button></form></td>
-        <td><form>
-          <button type="button" onclick="<% rental_request.deny! %>"
-          >Deny</button></form></td>
+          <%= button_to "Approve", approve_cat_rental_request_url(rental_request) %>
+        </td>
+
+        <td>
+          <%= button_to "Deny", deny_cat_rental_request_url(rental_request) %>
+        </td>
       <% end %>
     </tr>
   <% end %>
 </table>
 
 
+<br>
+<%= button_to "Pending all requests", "/cat_rental_requests/#{@cat.id}/pending_all" %>
+
+<br>
+<a href="/cat_rental_requests/new">Make more rental request</a>
+<br>
 <br>
 <a href="/cats/<%= @cat.id %>/edit">Edit <%= @cat.name %>'s information</a>
 <br>

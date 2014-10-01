@@ -1,0 +1,10 @@
+          <form action="<%= deny_url(rental_request) %>" >
+          <input type="submit" name="cat_rental_request[status]"
+          value="DENY"
+          >Deny</input>
+          </form>
+          <form action="<%= approve_url(rental_request) %>">
+          <intput type="submit" name="cat_rental_request[status]"
+          value="APPROVED"
+          >APPROVED</input>
+          </form>
