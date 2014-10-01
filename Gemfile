@@ -45,6 +45,7 @@ group :development do
   gem 'pry-rails'
 
   gem 'quiet_assets'
+  gem 'bcrypt', '~> 3.1.7'
 end
 # Use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.1.2'

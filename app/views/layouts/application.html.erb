@@ -7,6 +7,12 @@
 </head>
 <body>
 
+<h1>Welcome, <%= current_user.user_name %>!</h1>
+<% if signed_in? %>
+  <input type="hidden" name="_method" value="DELETE">
+  <%= button_to, "Log out", "/session" %>
+<% end %>
+
 <%= yield %>
 
 </body>

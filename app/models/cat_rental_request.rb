@@ -16,6 +16,7 @@ class CatRentalRequest < ActiveRecord::Base
       unless self.has_conflict?
         self.update(status: "APPROVED")
       else
+        #try to implement a flash msg to show there is a conflict
         errors[:base] << "Cannot approved overlapping request"
       end
     end
@@ -74,7 +75,7 @@ class CatRentalRequest < ActiveRecord::Base
       errors[:base] << "Cannot approved overlapping request"
     end
   end
-
+  #redundant because database setup already set a default pending value
   # def set_initial_pending
   #   self.status ||= "PENDING"
   # end

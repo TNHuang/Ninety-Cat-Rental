@@ -29,7 +29,7 @@
       <td><%= rental_request.status %></td>
       <td align="center"><%= rental_request.has_conflict? ? "yes" : "no" %></td>
       <% if rental_request.status == "PENDING" %>
-
+      <!-- flash comment about approval conflict -->
         <td>
           <%= button_to "Approve", approve_cat_rental_request_url(rental_request) %>
         </td>
@@ -44,7 +44,7 @@
 
 
 <br>
-<%= button_to "Pending all requests", "/cat_rental_requests/#{@cat.id}/pending_all" %>
+<%= button_to "make all requests pending", "/cat_rental_requests/#{@cat.id}/pending_all" %>
 
 <br>
 <a href="/cat_rental_requests/new">Make more rental request</a>
