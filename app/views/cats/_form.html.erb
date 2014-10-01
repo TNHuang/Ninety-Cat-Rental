@@ -1,0 +1,61 @@
+<% action_url = @cat.persisted? ? cat_url(@cat) : cats_url %>
+<% form_method = @cat.persisted? ? "PATCH" : "POST" %>
+<% submit_text = @cat.persisted? ? "Update Cat!" : "Enter Cat!" %>
+
+<form action="<%= action_url %>" method="POST">
+<input type="hidden" name="_method" value="<%= form_method %>">
+  <table>
+    <tr>
+      <td><label for="name">Name</label></td>
+      <td><input type="text" id="name"
+            name="cat[name]" value="<%= @cat.name %>" ></td>
+    </tr>
+    <tr>
+      <td><label for="birth_date">Birthdate<label></td>
+      <td><input type="date" id="birth_date"
+            name="cat[birth_date]" value="<%= @cat.birth_date %>"></td>
+    </tr>
+
+    <tr><td><label>Sex</label></td></tr>
+    <tr>
+      <td><input type="radio" id="male" name="cat[sex]"
+            value="M" <%= "checked" if @cat.sex == "M" %> ></td>
+      <td><label for="sex">Male</label></td>
+    </tr>
+
+    <tr >
+      <td><input type="radio" id="female" name="cat[sex]"
+            value="F" <%= "checked" if @cat.sex == "F" %> ></td>
+      <td><label for="sex">Female</label></td>
+    </tr>
+
+    <tr>
+      <td><label for="cat_color">Cat color</label></td>
+      <td>
+        <select id="cat_color" name="cat[color]">
+           <option value="">no color selected</option>
+
+           <% @cat.class::COLORS.each do |color| %>
+             <option value="<%= color %>"
+              <%= "selected" if @cat.color == color %>><%= color %></option>
+           <% end %>
+
+        </select>
+      </td>
+    </tr>
+
+    <tr>
+      <td>
+        <label for="description">Description:</label>
+      </td>
+      <td>
+        <textarea id="description" name="cat[description]"
+         cols="15" rows="4" ><%= @cat.description %>
+        </textarea>
+      </td>
+    </tr>
+
+  </table>
+
+  <input type="submit" value="<%= submit_text %>">
+</form>

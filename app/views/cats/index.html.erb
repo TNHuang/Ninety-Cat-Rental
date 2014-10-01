@@ -1,0 +1,10 @@
+<h1>All Cats</h1>
+
+<ul>
+<% @cats.each do |cat|%>
+     <li><a href="http://localhost:3000/cats/<%= cat.id %>"><%= cat.name %></a></li>
+<% end %>
+</ul>
+
+<br>
+<a href="/cats/new">Enter a new cat!</a>

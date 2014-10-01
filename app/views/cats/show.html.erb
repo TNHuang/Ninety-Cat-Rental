@@ -1,0 +1,44 @@
+<h1><%= @cat.name %>'s Page</h1>
+
+<table>
+  <tr>
+    <th><%= @cat.name %>'s stats</th>
+  </tr>
+<% @cat_attrs.each do |cat_attr|%>
+<tr>
+  <td><%= "#{@cat.name}'s #{cat_attr}" %></td>
+  <td><%= "#{@cat[cat_attr]}"%></td>
+</tr>
+<% end %>
+</table>
+
+<br>
+<br>
+
+<table>
+  <tr>
+    <th><%= @cat.name %>'s rental requests</th>
+  </tr>
+  <% @cat.cat_rental_requests.each do |rental_request| %>
+    <tr>
+      <td><%= rental_request.start_date %></td>
+      <td><%= rental_request.end_date %></td>
+      <td><%= rental_request.status %></td>
+      <% if rental_request.status == "PENDING" %>
+        <td>
+          <form>
+          <button type="button" onclick="<% rental_request.approve! %>"
+          >Approve</button></form></td>
+        <td><form>
+          <button type="button" onclick="<% rental_request.deny! %>"
+          >Deny</button></form></td>
+      <% end %>
+    </tr>
+  <% end %>
+</table>
+
+
+<br>
+<a href="/cats/<%= @cat.id %>/edit">Edit <%= @cat.name %>'s information</a>
+<br>
+<a href="/cats">Go back to index page</a>
