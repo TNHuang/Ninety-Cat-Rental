@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+  before_filter :redirect_to_cat_index_if_signed_in
 
   def new
     @user = User.new
@@ -6,14 +7,13 @@ class UsersController < ApplicationController
   end
 
   def create
-    @user = User.new()
+    @user = User.new(user_params)
 
     if @user.save
-      login_user!
+      login!(@user)
       redirect_to cats_url
     else
       flash[:errors] << @user.errors.full_messages
-
       render :new
     end
   end

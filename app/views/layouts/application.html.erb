@@ -7,10 +7,18 @@
 </head>
 <body>
 
-<h1>Welcome, <%= current_user.user_name %>!</h1>
 <% if signed_in? %>
-  <input type="hidden" name="_method" value="DELETE">
-  <%= button_to, "Log out", "/session" %>
+  <h1>Welcome, <%=current_user.user_name %>!</h1>
+  <form action="<%= session_url%>" method="POST">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="authenticity_token"
+               value="<%= form_authenticity_token%>">
+    <input type="submit" value="Log out!">
+  </form>
+<% end %>
+
+<% if flash[:errors] %>
+  <pre><%= flash[:errors] %></pre>
 <% end %>
 
 <%= yield %>

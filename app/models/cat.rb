@@ -1,16 +1,21 @@
 class Cat < ActiveRecord::Base
   COLORS = %w{black white calico tabby grey}
 
-  validates :birth_date, :sex, :color, :name, presence: true
+  validates :user_id, :birth_date, :sex, :color, :name, presence: true
   validates_inclusion_of :color, in: COLORS
   validates_inclusion_of :sex, in: ["M", "F"]
   validate :birthday_on_or_before_today
 
   has_many :cat_rental_requests,
-  class_name: "CatRentalRequest",
-  foreign_key: :cat_id,
-  primary_key: :id,
-  dependent: :destroy
+    class_name: "CatRentalRequest",
+    foreign_key: :cat_id,
+    primary_key: :id,
+    dependent: :destroy
+
+  belongs_to :owner,
+    class_name: "User",
+    foreign_key: :user_id,
+    primary_key: :id
 
 
   def age

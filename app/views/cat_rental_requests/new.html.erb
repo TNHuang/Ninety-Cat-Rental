@@ -1,6 +1,10 @@
 <h1>Make a new Cat Rental Requst!</h1>
 
 <form action="/cat_rental_requests/" method="POST">
+
+  <input type="hidden" name="authenticity_token"
+             value="<%= form_authenticity_token%>">
+
   <label for="cat">Choose a Cat</label>
   <select id="cat" name="cat_rental_request[cat_id]">
     <option value="">no cat selected</option>

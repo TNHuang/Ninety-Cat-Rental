@@ -3,7 +3,10 @@
 <% submit_text = @cat.persisted? ? "Update Cat!" : "Enter Cat!" %>
 
 <form action="<%= action_url %>" method="POST">
-<input type="hidden" name="_method" value="<%= form_method %>">
+  <input type="hidden" name="_method" value="<%= form_method %>">
+  <input type="hidden" name="authenticity_token"
+             value="<%= form_authenticity_token%>">
+
   <table>
     <tr>
       <td><label for="name">Name</label></td>

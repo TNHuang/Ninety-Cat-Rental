@@ -1,5 +1,9 @@
 class CatsController < ApplicationController
 
+  before_filter :redirect_to_login_if_not_signed_in
+
+  before_filter :is_owner?, only: [:edit, :update]
+
   def index
     @cats = Cat.all
 
@@ -27,6 +31,8 @@ class CatsController < ApplicationController
 
   def create
     @cat = Cat.new(cat_params)
+    @cat.user_id = current_user.id
+
     if @cat.save
       redirect_to cat_url(@cat)
     else
@@ -55,6 +61,13 @@ class CatsController < ApplicationController
     end
   end
 
+  def is_owner?
+    @cat = Cat.find(params[:id])
+    if @cat.user_id != current_user.id
+      flash[:errors] = "sorry not your cat :<"
+      redirect_to cats_url
+    end
+  end
 
   private
   def cat_params

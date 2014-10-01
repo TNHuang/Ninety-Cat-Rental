@@ -1,7 +1,7 @@
 class CatRentalRequest < ActiveRecord::Base
   STATUS = ["PENDING", "DENIED", "APPROVED"]
 
-  validates :cat_id, :start_date, :end_date, :status, presence: true
+  validates :cat_id, :start_date, :end_date, :status, :user_id, presence: true
   validates_inclusion_of :status, in: STATUS
   # validate :overlapping_approved_requests
 
@@ -11,38 +11,43 @@ class CatRentalRequest < ActiveRecord::Base
     class_name: "Cat",
     foreign_key: :cat_id,
     primary_key: :id
-    #
-    def approve!
-      unless self.has_conflict?
-        self.update(status: "APPROVED")
-      else
-        #try to implement a flash msg to show there is a conflict
-        errors[:base] << "Cannot approved overlapping request"
-      end
-    end
 
-    def deny!
-      self.update(status: "DENIED")
-    end
+  belongs_to :requester,
+    class_name: "User",
+    foreign_key: :user_id,
+    primary_key: :id
 
-    def has_conflict?
-      overlap_sql = <<-SQL
-        SELECT
-          *
-        FROM
-          cat_rental_requests
-        WHERE
-          id != ?
-          AND
-           status = 'APPROVED'
-          AND
-          NOT (? > end_date OR start_date > ?)
-      SQL
-      overlaps = CatRentalRequest.find_by_sql(
-          [overlap_sql, self.id, self.start_date, self.end_date])
-
-      !overlaps.empty?
+  def approve!
+    unless self.has_conflict?
+      self.update(status: "APPROVED")
+      true
+    else
+      false
     end
+  end
+
+  def deny!
+    self.update(status: "DENIED")
+  end
+
+  def has_conflict?
+    overlap_sql = <<-SQL
+      SELECT
+        *
+      FROM
+        cat_rental_requests
+      WHERE
+        id != ?
+        AND
+         status = 'APPROVED'
+        AND
+        NOT (? > end_date OR start_date > ?)
+    SQL
+    overlaps = CatRentalRequest.find_by_sql(
+        [overlap_sql, self.id, self.start_date, self.end_date])
+
+    !overlaps.empty?
+  end
 
   # def overlapping_requests
   #   overlap_sql = <<-SQL

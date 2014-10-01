@@ -1,6 +1,6 @@
-<h1>Log in!</h1>
+<h1>Create a new account!</h1>
 
-<form action="/session" method="POST">
+<form action="/users" method="POST">
   <input type="hidden" name="authenticity_token"
              value="<%= form_authenticity_token%>">
 
@@ -13,8 +13,7 @@
   <label for="user.password">Password</label>
   <input type="password" id="user.password"
         name="user[password]"></input>
+<br>
 
-<input type="submit" value="Log in!"></input>
+<input type="submit" value="Create!"></input>
 </form>
-
-<a href="<%= new_user_url %>">Create a new account</a>
